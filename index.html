@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<link href="app/css/style.css" rel="stylesheet" media="screen">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body ng-app="myApp" ng-controller="todoCtrl">
+  <div class="centerText"><h2>Todo App</h2></div>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 row">
+      <form ng-submit="todoAdd()" name="toDoForm">
+        <div class="form-row">
+          <div class="form-group col-md-3" ng-class="{true: 'error'}[submitted && toDoForm.title.$invalid]">
+            <input type="text" class="form-control " name="title" ng-model="todoTitle" size="50" placeholder="Add Title" required>
+            <!-- <span class="help-inline" ng-show="submitted && toDoForm.title.$error.required">Required</span> -->
+          </div>
+          <div class="form-group col-md-3" ng-class="{true: 'error'}[submitted && toDoForm.description.$invalid]">
+            <input type="text" class="form-control " name="description" ng-model="todoDescription" size="50" placeholder="Add Descrition" required>
+            <!-- <span class="help-inline" ng-show="submitted && toDoForm.description.$error.required">Required</span> -->
+          </div >
+          <div class="form-group col-md-3" ng-class="{true: 'error'}[submitted && toDoForm.tag.$invalid]">
+            <select class="form-control " ng-model="todoTag">
+              <option value="" selected>Please Select Tag</option>
+              <option value="Need To Start">Need To Start</option>
+              <option value="Completed">Completed</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Not Done">Not Done</option>
+
+            </select>
+
+          </div>
+
+          <div class="form-group col-md-3">
+            <input type="submit"  class="btn btn-success"  ng-click="submitted=true" value="Add New Task">
+          </div>
+        </div>
+      </form>
+      <hr>
+    </div>
+
+    <div class="col-md-2"></div>
+  </div>
+
+  <br>
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <div class="form-group">
+      <input type="text"  class="form-control" placeholder="Search......." ng-model="searchTable">
+    </div>
+    <hr>
+    <div class="form-group">
+      <h4>Filter By Tags</h4>
+    <input  type="checkbox" ng-model='type4' ng-true-value="'Need To Start'" ng-false-value="''"/> Need To Start
+    <input  type="checkbox" ng-model='type1' ng-true-value="'completed'" ng-false-value="''"/> completed
+    <input  type="checkbox" ng-model='type2' ng-true-value="'In Progress'" ng-false-value="''"/>In Progress
+    <input  type="checkbox" ng-model='type3' ng-true-value="'Not Done'" ng-false-value="''"/> Not Done
+    </div>
+    <hr>
+
+    <table class="table table-striped">
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Tag</th>
+        <th></th>
+      </tr>
+
+      <tr ng-repeat="x in todoList | filter:searchTable | filter:type1 | filter:type2 | filter:type3 | filter:type4 ">
+        <td><input type="checkbox" ng-model="x.done"></td>
+        <td><input type="text" ng-disabled="inactive" ng-model="x.todoTitle"></td>
+        <td><input type="text" ng-disabled="inactive" ng-model="x.todoDescription"></td>
+        <td>
+
+          <select class="form-control " ng-model="x.todoTag" ng-disabled="inactive">
+            <option value="Need To Start">Need To Start</option>
+            <option value="Completed">Completed</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Not Done">Not Done</option>
+
+          </select>
+        </td>
+        <td><button type="button" class="btn btn-info" ng-click="inactive = !inactive">Edit</button></td>
+      </tr>
+
+    </table>
+    <hr>
+    <button class="btn btn-danger" ng-click="remove()">Remove marked</button>
+    <button class="btn" ng-click="save()">Save Edit Task</button>
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+<!-- <p><button class="btn btn-danger" ng-click="remove()">Remove marked</button></p> -->
+<!-- <p><button ng-click="save()">store Data</button></p>
+<p><button ng-click="load()">Load Data</button></p> -->
+
+<script src="app/js/toDoController.js"></script>
+
+</body>
+</html>
